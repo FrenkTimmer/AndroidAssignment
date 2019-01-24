@@ -16,7 +16,6 @@ public class DataSource {
 
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
-    private String[] assignmentAllColumns = { MySQLiteHelper.COLUMN_LISTITEM_ID, MySQLiteHelper.COLUMN_NAME, MySQLiteHelper.COLUMN_WEBSITE };
 
     public DataSource(Context context) {
         dbHelper = new MySQLiteHelper(context);
@@ -96,34 +95,6 @@ public class DataSource {
             close();
 
         return list;
-    }
-
-    public ListItem get(String name) {
-        // If the database is not open yet, open it
-        if (!database.isOpen())
-            open();
-
-        ListItem item;
-
-        String[] columns = this.assignmentAllColumns;
-
-        Cursor cursor = database.query(true, MySQLiteHelper.TABLE_LISTITEM, columns, MySQLiteHelper.COLUMN_NAME + "=?", new String[]{name}, "", "", "", "");
-
-        cursor.moveToFirst();
-
-        do {
-            String nameColumn = cursor.getString(0);
-            String urlColumn = cursor.getString(1);
-
-            item = new ListItem(nameColumn, urlColumn);
-
-        } while (cursor.moveToNext());
-
-        // If the database is open, close it
-        if (database.isOpen())
-            close();
-
-        return item;
     }
 
     public boolean update(String oldTitle, ListItem item) {

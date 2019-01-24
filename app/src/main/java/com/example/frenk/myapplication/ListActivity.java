@@ -28,7 +28,6 @@ public class ListActivity extends AppCompatActivity {
     private DataSource source;
     private ListItem currentListItem;
     private int currentPosition;
-    private View currentView;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,10 +72,11 @@ public class ListActivity extends AppCompatActivity {
                 //Open the new screen by starting the activity
                 startActivity(intent);
             }
-        }, new ItemAdapter.CustomItemLongClickListener() {
+        }
+
+        , new ItemAdapter.CustomItemLongClickListener() {
             @Override
             public void onItemLongClick(View v, int position) {
-                ViewHolder viewHolder = (ViewHolder) recyclerView.findViewHolderForItemId(v.getId());
                 //int position = viewHolder.getLayoutPosition();
                 currentListItem = items.get(position);
                 currentPosition = position;
@@ -135,7 +135,9 @@ public class ListActivity extends AppCompatActivity {
                 if (recyclerView.getVisibility() == View.GONE) {
                     recyclerView.setVisibility(View.VISIBLE);
                 }
-            } else if (requestCode == 4321){
+            }
+
+            else if (requestCode == 4321){
                 // Everything's fine, get the values;
                 String title = data.getStringExtra("title");
                 String oldTitle = data.getStringExtra("oldTitle");
@@ -175,12 +177,9 @@ public class ListActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch(item.getItemId()) {
             case R.id.edit:
-                // edit stuff here
 
-                // TODO edit in db
                 // Get intent
                 Intent intent = new Intent(this.recyclerView.getContext(), EditItemActivity.class);
 
@@ -190,6 +189,7 @@ public class ListActivity extends AppCompatActivity {
                 // Start new item activity
                 startActivityForResult(intent, 4321);
                 return true;
+
             case R.id.delete:
 
                 if (!this.source.removeListItem(currentListItem.getTitle())) return false;
@@ -204,7 +204,7 @@ public class ListActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
 
                 return true;
-            default:
+                default:
                 return super.onContextItemSelected(item);
         }
     }

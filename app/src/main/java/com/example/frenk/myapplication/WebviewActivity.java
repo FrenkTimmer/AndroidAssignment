@@ -17,14 +17,4 @@ public class WebviewActivity extends AppCompatActivity {
         view.setWebViewClient(new MyBrowser());
         view.loadUrl("https://"+ descriptionString);
     }
-
-    private class MyBrowserOverride extends WebViewClient implements com.example.frenk.myapplication.MyBrowserOverride {
-
-        @Override
-        public boolean OverrideLoading(WebView view, String Url)
-        {
-            view.loadUrl(Url);
-            return true;
-        }
-    }
 }
